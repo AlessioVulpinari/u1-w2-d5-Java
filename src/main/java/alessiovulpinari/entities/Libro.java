@@ -1,14 +1,12 @@
 package alessiovulpinari.entities;
 
-import java.time.LocalDate;
-
 public class Libro extends ElementoCatalogo {
 
     private String author;
     private String genre;
 
 
-    public Libro(String title, LocalDate yearOfPublication, int numberOfPages, String author, String genre) {
+    public Libro(String title, int yearOfPublication, int numberOfPages, String author, String genre) {
         super(title, yearOfPublication, numberOfPages);
         this.setAuthor(author);
         this.setGenre(genre);

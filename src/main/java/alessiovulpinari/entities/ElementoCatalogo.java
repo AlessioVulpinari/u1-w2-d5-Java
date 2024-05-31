@@ -2,15 +2,13 @@ package alessiovulpinari.entities;
 
 import com.github.javafaker.Faker;
 
-import java.time.LocalDate;
-
 public abstract class ElementoCatalogo {
     private String isbn;
     private String title;
-    private LocalDate yearOfPublication;
+    private int yearOfPublication;
     private int numberOfPages;
 
-    public ElementoCatalogo(String title, LocalDate yearOfPublication, int numberOfPages) {
+    public ElementoCatalogo(String title, int yearOfPublication, int numberOfPages) {
         this.setIsbn(generateIsbn());
         this.setTitle(title);
         this.setYearOfPublication(yearOfPublication);
@@ -33,11 +31,11 @@ public abstract class ElementoCatalogo {
         this.title = title;
     }
 
-    public LocalDate getYearOfPublication() {
+    public int getYearOfPublication() {
         return yearOfPublication;
     }
 
-    public void setYearOfPublication(LocalDate yearOfPublication) {
+    public void setYearOfPublication(int yearOfPublication) {
         this.yearOfPublication = yearOfPublication;
     }
 
