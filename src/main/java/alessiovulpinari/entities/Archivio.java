@@ -46,7 +46,8 @@ public class Archivio {
             return null;
         } else {
             try {
-                ElementoCatalogo elementSearched = this.getCatalogueList().stream().filter(elementoCatalogo -> Objects.equals(elementoCatalogo.getIsbn(), isbn)).toList().getFirst();
+                ElementoCatalogo elementSearched = this.getCatalogueList().stream()
+                        .filter(elementoCatalogo -> Objects.equals(elementoCatalogo.getIsbn(), isbn)).toList().getFirst();
                 System.out.println("Elemento trovato: " + elementSearched.getTitle());
                 return elementSearched;
             } catch (NoSuchElementException err) {
@@ -61,11 +62,28 @@ public class Archivio {
             System.out.println("Il tuo archivio è vuoto!");
             return null;
         } else {
-            List<ElementoCatalogo> elementoCatalogoList = this.getCatalogueList().stream().filter(elementoCatalogo -> Objects.equals(elementoCatalogo.getYearOfPublication(), year)).toList();
+            List<ElementoCatalogo> elementoCatalogoList = this.getCatalogueList().stream()
+                    .filter(elementoCatalogo -> Objects.equals(elementoCatalogo.getYearOfPublication(), year)).toList();
             if (elementoCatalogoList.isEmpty()) {
-                System.out.println("Nessun elemento uscito nel: " + year + " è presente nella tua lista Archivio");
+                System.out.println("Nessun elemento uscito nel: " + year + " è presente nella tua lista Archivio.");
             }
             return elementoCatalogoList;
+        }
+    }
+
+    public List<ElementoCatalogo> searchByAuthor(String author) {
+        if (this.getCatalogueList().isEmpty()) {
+            System.out.println("Il tuo archivio è vuoto!");
+            return null;
+        } else {
+            List<ElementoCatalogo> searchByAuthorList = this.getCatalogueList().stream()
+                    .filter(elementoCatalogo -> elementoCatalogo instanceof Libro)
+                    .filter(libro -> Objects.equals(((Libro) libro).getAuthor(), author)).toList();
+            if (searchByAuthorList.isEmpty()) {
+                System.out.println("Nessun libro di: " + author + " è presente nella tua lista Archivio.");
+            }
+
+            return searchByAuthorList;
         }
     }
 }

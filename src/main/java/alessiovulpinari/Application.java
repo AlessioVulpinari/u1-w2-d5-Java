@@ -26,8 +26,11 @@ public class Application {
         ElementoCatalogo elementoCatalogo1 = archivio.searchByIsbn(rivista2.getIsbn());
         ElementoCatalogo elementoCatalogo2 = archivio.searchByIsbn(rivista1.getIsbn());
 
-        List<ElementoCatalogo> elementoCatalogoList = archivio.searchByYear(rivista1.getYearOfPublication());
-        elementoCatalogoList.forEach(System.out::println);
+        List<ElementoCatalogo> searchByYearList = archivio.searchByYear(rivista1.getYearOfPublication());
+        List<ElementoCatalogo> searchByAuthorList = archivio.searchByAuthor(libro1.getAuthor());
+
+        searchByYearList.forEach(System.out::println);
+        searchByAuthorList.forEach(System.out::println);
 
         archivio.removeCatalogueElement(rivista1.getIsbn());
         archivio.removeCatalogueElement(libro3.getIsbn());
