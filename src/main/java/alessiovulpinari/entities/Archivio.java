@@ -13,9 +13,6 @@ import java.util.Objects;
 public class Archivio {
     List<ElementoCatalogo> catalogueList;
 
-    public Archivio() {
-    }
-
     public Archivio(List<ElementoCatalogo> elementoCatalogoList) {
         this.catalogueList = elementoCatalogoList;
     }
@@ -35,11 +32,13 @@ public class Archivio {
                 '}';
     }
 
+    // Funzione per aggiungere un elemento (Libro o Rivista) all'archivio
     public void addToCatalogueList(ElementoCatalogo elementoCatalogo) {
         this.getCatalogueList().add(elementoCatalogo);
         System.out.println(elementoCatalogo.getTitle() + " aggiunto con successo!");
     }
 
+    // Funzione per rimuovere un dato elemento (se presente) ricevendo come parametro il suo codice ISBN
     public void removeCatalogueElement(String isbn) {
         if (this.getCatalogueList().isEmpty()) {
             System.out.println("Il tuo archivio è vuoto!");
@@ -54,6 +53,7 @@ public class Archivio {
         }
     }
 
+    // Funzione nella quale dato un codice ISBN restituisce l'elemento (se presente) con quel codice
     public ElementoCatalogo searchByIsbn(String isbn) {
         if (this.getCatalogueList().isEmpty()) {
             System.out.println("Il tuo archivio è vuoto!");
@@ -71,6 +71,7 @@ public class Archivio {
         }
     }
 
+    // Funzione che restituisce una lista di elementi (se presenti nell'archivio) in base al numero inserito come parametro
     public List<ElementoCatalogo> searchByYear(int year) {
         if (this.getCatalogueList().isEmpty()) {
             System.out.println("Il tuo archivio è vuoto!");
@@ -85,6 +86,7 @@ public class Archivio {
         }
     }
 
+    // Funzione che restituisce una lista di elementi (se presenti nell'archivio) in base al nome dell'autore inserito come parametro
     public List<ElementoCatalogo> searchByAuthor(String author) {
         if (this.getCatalogueList().isEmpty()) {
             System.out.println("Il tuo archivio è vuoto!");
@@ -101,11 +103,15 @@ public class Archivio {
         }
     }
 
+    // Funzione che salva l'archivio in un file JSON (/files/backups.json)
     public void saveOnDisk() {
         try {
+            // SET UPS per l'objectMapper
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);
             objectMapper.registerSubtypes(Libro.class, Rivista.class);
+
+            // Creiamo il file JSON sfruttando writeValue dell'objectmapper
             objectMapper.writeValue(new File("src/main/java/alessiovulpinari/files/backup.json"), this.getCatalogueList());
             System.out.println("Salvataggio effettuato con successo!");
 
@@ -114,16 +120,20 @@ public class Archivio {
         }
     }
 
+    // Funzione che restituisce un elenco di elementi in base agli oggetti salvati nel file JSON
     public List<ElementoCatalogo> loadFromDisk() {
 
         try {
+            // SET UPS per l'objectMapper
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);
             objectMapper.registerSubtypes(Libro.class, Rivista.class);
 
+            // Leggiamo il file JSON e gli diciamo in che modo convertire gli oggetti salvati all'interno -> typeReference
             List<ElementoCatalogo> backupList = objectMapper.readValue(new File("src/main/java/alessiovulpinari/files/backup.json"), new TypeReference<List<ElementoCatalogo>>() {
             });
 
+            // Ora ritorniamo la lista
             return backupList;
 
         } catch (IOException err) {
