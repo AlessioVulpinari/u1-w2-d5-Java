@@ -4,6 +4,7 @@ import alessiovulpinari.entities.*;
 import com.github.javafaker.Faker;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
@@ -11,7 +12,7 @@ import java.util.function.Supplier;
 public class Application {
 
     public static void main(String[] args) {
-        Archivio archivio = new Archivio();
+        Archivio archivio = new Archivio(new ArrayList<>());
 
         Libro libro1 = createBook();
         Libro libro2 = createBook();
@@ -22,6 +23,11 @@ public class Application {
 
         archivio.addToCatalogueList(libro1);
         archivio.addToCatalogueList(rivista1);
+
+        archivio.saveOnDisk();
+        List<ElementoCatalogo> backUp = archivio.loadFromDisk();
+
+        System.out.println(backUp);
 
         ElementoCatalogo elementoCatalogo1 = archivio.searchByIsbn(rivista2.getIsbn());
         ElementoCatalogo elementoCatalogo2 = archivio.searchByIsbn(rivista1.getIsbn());

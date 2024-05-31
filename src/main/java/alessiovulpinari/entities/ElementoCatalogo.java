@@ -1,12 +1,27 @@
 package alessiovulpinari.entities;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.github.javafaker.Faker;
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Libro.class, name = "alessiovulpinari.entities.Libro"),
+        @JsonSubTypes.Type(value = Rivista.class, name = "alessiovulpinari.entities.Rivista")
+})
 
 public abstract class ElementoCatalogo {
     private String isbn;
     private String title;
     private int yearOfPublication;
     private int numberOfPages;
+
+    public ElementoCatalogo() {
+    }
 
     public ElementoCatalogo(String title, int yearOfPublication, int numberOfPages) {
         this.setIsbn(generateIsbn());

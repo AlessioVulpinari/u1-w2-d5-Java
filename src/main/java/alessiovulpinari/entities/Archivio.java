@@ -1,6 +1,11 @@
 package alessiovulpinari.entities;
 
-import java.util.ArrayList;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -9,7 +14,10 @@ public class Archivio {
     List<ElementoCatalogo> catalogueList;
 
     public Archivio() {
-        this.catalogueList = new ArrayList<>();
+    }
+
+    public Archivio(List<ElementoCatalogo> elementoCatalogoList) {
+        this.catalogueList = elementoCatalogoList;
     }
 
     public List<ElementoCatalogo> getCatalogueList() {
@@ -20,6 +28,12 @@ public class Archivio {
         this.catalogueList = catalogueList;
     }
 
+    @Override
+    public String toString() {
+        return "Archivio{" +
+                "catalogueList=" + catalogueList +
+                '}';
+    }
 
     public void addToCatalogueList(ElementoCatalogo elementoCatalogo) {
         this.getCatalogueList().add(elementoCatalogo);
@@ -86,4 +100,37 @@ public class Archivio {
             return searchByAuthorList;
         }
     }
+
+    public void saveOnDisk() {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);
+            objectMapper.registerSubtypes(Libro.class, Rivista.class);
+            objectMapper.writeValue(new File("src/main/java/alessiovulpinari/files/backup.json"), this.getCatalogueList());
+            System.out.println("Salvataggio effettuato con successo!");
+
+        } catch (IOException err) {
+            System.out.println(err.getMessage());
+        }
+    }
+
+    public List<ElementoCatalogo> loadFromDisk() {
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);
+            objectMapper.registerSubtypes(Libro.class, Rivista.class);
+
+            List<ElementoCatalogo> backupList = objectMapper.readValue(new File("src/main/java/alessiovulpinari/files/backup.json"), new TypeReference<List<ElementoCatalogo>>() {
+            });
+
+            return backupList;
+
+        } catch (IOException err) {
+            System.out.println(err.getMessage());
+            return null;
+        }
+    }
 }
+
+

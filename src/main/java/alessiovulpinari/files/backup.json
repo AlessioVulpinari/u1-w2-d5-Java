@@ -1,0 +1,1 @@
+["java.util.ArrayList",[["alessiovulpinari.entities.Libro",{"isbn":"0956570089","title":"This Side of Paradise","yearOfPublication":2014,"numberOfPages":211,"author":"Mrs. Lynn Hermiston","genre":"Mythopoeia"}],["alessiovulpinari.entities.Rivista",{"isbn":"1832256375","title":"To Say Nothing of the Dog","yearOfPublication":1846,"numberOfPages":357,"periodicity":"MENSILE"}]]]

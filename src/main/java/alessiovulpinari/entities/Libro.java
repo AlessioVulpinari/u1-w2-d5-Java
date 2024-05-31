@@ -5,6 +5,8 @@ public class Libro extends ElementoCatalogo {
     private String author;
     private String genre;
 
+    public Libro() {
+    }
 
     public Libro(String title, int yearOfPublication, int numberOfPages, String author, String genre) {
         super(title, yearOfPublication, numberOfPages);
